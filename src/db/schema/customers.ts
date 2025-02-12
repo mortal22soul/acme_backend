@@ -4,6 +4,11 @@ import { relations } from "drizzle-orm";
 import { users } from "./users.ts";
 import { bookings } from "./bookings.ts";
 import { reviews } from "./reviews.ts";
+import {
+  createInsertSchema,
+  createSelectSchema,
+  createUpdateSchema,
+} from "drizzle-zod";
 
 export default defineConfig({
   dialect: "postgresql",
@@ -17,7 +22,7 @@ export const customers = pgTable("customers", {
     .references(() => users.id),
   phone: text().notNull().unique(),
   streetAddress1: text("street_address1").notNull(),
-  streetAddress2: text("street_address1"),
+  streetAddress2: text("street_address2"),
   city: text().notNull(),
   zip: text().notNull(),
   dob: timestamp({ mode: "string" }).notNull(),
@@ -33,3 +38,7 @@ export const customersRelations = relations(customers, ({ many, one }) => ({
   bookings: many(bookings),
   reviews: many(reviews),
 }));
+
+export const customerInsertSchema = createInsertSchema(customers);
+export const customerSelectSchema = createSelectSchema(customers);
+export const customerUpdateSchema = createUpdateSchema(customers);

@@ -12,6 +12,11 @@ import { bookings } from "./bookings.ts";
 import { itineraries } from "./itineraries.ts";
 import { reviews } from "./reviews.ts";
 import { agents } from "./agents.ts";
+import {
+  createInsertSchema,
+  createUpdateSchema,
+  createSelectSchema,
+} from "drizzle-zod";
 
 export default defineConfig({
   dialect: "postgresql",
@@ -45,3 +50,7 @@ export const tripsRelations = relations(trips, ({ one, many }) => ({
   itineraries: many(itineraries),
   reviews: many(reviews),
 }));
+
+export const insertTripSchema = createInsertSchema(trips);
+export const updateTripSchema = createUpdateSchema(trips);
+export const selectTripSchema = createSelectSchema(trips);

@@ -12,7 +12,7 @@ app.get("/", (c) => {
 });
 
 app.doc("/openapi", {
-  openapi: "3.0.0",
+  openapi: "3.1.1",
   info: {
     version: "0.0.1",
     title: "Backend for travel agency",
@@ -30,5 +30,5 @@ serve({
 });
 
 app.route("/users", userRouter);
-// app.route("/customers", customerRouter);
-// app.route("/agents", agentRouter);
+app.route("/customers", customerRouter);
+app.route("/agents", agentRouter);

@@ -2,6 +2,11 @@ import { defineConfig } from "drizzle-kit";
 import { pgEnum, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import { bookings } from "./bookings.ts";
+import {
+  createInsertSchema,
+  createUpdateSchema,
+  createSelectSchema,
+} from "drizzle-zod";
 
 export default defineConfig({
   dialect: "postgresql",
@@ -33,3 +38,7 @@ export const paymentsRelations = relations(payments, ({ one }) => ({
     references: [bookings.id],
   }),
 }));
+
+export const insertPaymentSchema = createInsertSchema(payments);
+export const updatePaymentSchema = createUpdateSchema(payments);
+export const selectPaymentSchema = createSelectSchema(payments);

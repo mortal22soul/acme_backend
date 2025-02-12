@@ -2,12 +2,11 @@ import { db } from "@/db/index.ts";
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { eq } from "drizzle-orm";
 import { users } from "@/db/schema/users.ts";
-
 import {
   getUser,
+  createUser,
   getAllUsers,
   getUserById,
-  createUser,
   updateUser,
   deleteUser,
 } from "@/routes/users/routes.ts";
@@ -21,7 +20,7 @@ userRouter.openapi(getAllUsers, async (c) => {
 });
 
 userRouter.openapi(getUserById, async (c) => {
-  const id = c.req.param().id;
+  const id = c.req.param("id");
 
   const user = await db.select().from(users).where(eq(users.id, id));
   return c.json(user);
@@ -34,7 +33,7 @@ userRouter.openapi(createUser, async (c) => {
 });
 
 userRouter.openapi(updateUser, async (c) => {
-  const id = c.req.param().id;
+  const id = c.req.param("id");
   const user = await c.req.json();
 
   await db.update(users).set(user).where(eq(users.id, id));
@@ -43,7 +42,7 @@ userRouter.openapi(updateUser, async (c) => {
 });
 
 userRouter.openapi(deleteUser, async (c) => {
-  const id = c.req.param().id;
+  const id = c.req.param("id");
 
   await db.delete(users).where(eq(users.id, id));
   return c.text("User deleted successfully");

@@ -2,6 +2,11 @@ import { pgTable, serial, text, timestamp, integer } from "drizzle-orm/pg-core";
 import { defineConfig } from "drizzle-kit";
 import { relations } from "drizzle-orm";
 import { trips } from "./trips.ts";
+import {
+  createInsertSchema,
+  createUpdateSchema,
+  createSelectSchema,
+} from "drizzle-zod";
 
 export default defineConfig({
   dialect: "postgresql",
@@ -25,3 +30,7 @@ export const itinerariesRelations = relations(itineraries, ({ one }) => ({
     references: [trips.id],
   }),
 }));
+
+export const insertItinerarySchema = createInsertSchema(itineraries);
+export const updateItinerarySchema = createUpdateSchema(itineraries);
+export const selectItinerarySchema = createSelectSchema(itineraries);

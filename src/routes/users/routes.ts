@@ -82,7 +82,7 @@ export const createUser = createRoute({
   request: {
     body: {
       content: {
-        "application/json": { schema: userInsertSchema.openapi("UserRequest") },
+        "application/json": { schema: userInsertSchema.openapi("UserInsert") },
       },
     },
   },
@@ -113,7 +113,7 @@ export const updateUser = createRoute({
     }),
     body: {
       content: {
-        "application/json": { schema: userUpdateSchema.openapi("UserRequest") },
+        "application/json": { schema: userUpdateSchema.openapi("UserUpdate") },
       },
     },
   },

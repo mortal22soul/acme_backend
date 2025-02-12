@@ -3,6 +3,11 @@ import { defineConfig } from "drizzle-kit";
 import { relations } from "drizzle-orm";
 import { customers } from "./customers.ts";
 import { trips } from "./trips.ts";
+import {
+  createInsertSchema,
+  createUpdateSchema,
+  createSelectSchema,
+} from "drizzle-zod";
 
 export default defineConfig({
   dialect: "postgresql",
@@ -33,3 +38,7 @@ export const reviewsRelations = relations(reviews, ({ one }) => ({
     references: [trips.id],
   }),
 }));
+
+export const insertReviewSchema = createInsertSchema(reviews);
+export const updateReviewSchema = createUpdateSchema(reviews);
+export const selectReviewSchema = createSelectSchema(reviews);

@@ -3,6 +3,11 @@ import { defineConfig } from "drizzle-kit";
 import { relations } from "drizzle-orm";
 import { users } from "./users.ts";
 import { trips } from "./trips.ts";
+import {
+  createSelectSchema,
+  createInsertSchema,
+  createUpdateSchema,
+} from "drizzle-zod";
 
 export default defineConfig({
   dialect: "postgresql",
@@ -27,3 +32,7 @@ export const agentsRelations = relations(agents, ({ one, many }) => ({
   }),
   trips: many(trips),
 }));
+
+export const agentSelectSchema = createSelectSchema(agents);
+export const agentInsertSchema = createInsertSchema(agents);
+export const agentUpdateSchema = createUpdateSchema(agents);

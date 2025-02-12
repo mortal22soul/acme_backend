@@ -11,6 +11,11 @@ import { customers } from "./customers.ts";
 import { trips } from "./trips.ts";
 import { payments } from "./payments.ts";
 import { relations } from "drizzle-orm";
+import {
+  createInsertSchema,
+  createSelectSchema,
+  createUpdateSchema,
+} from "drizzle-zod";
 
 export default defineConfig({
   dialect: "postgresql",
@@ -49,3 +54,7 @@ export const bookingsRelations = relations(bookings, ({ one }) => ({
     references: [payments.bookingId],
   }),
 }));
+
+export const insertBookingSchema = createInsertSchema(bookings);
+export const selectBookingSchema = createSelectSchema(bookings);
+export const updateBookingSchema = createUpdateSchema(bookings);
