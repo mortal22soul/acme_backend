@@ -23,7 +23,7 @@ customerRouter.openapi(getCustomerById, async (c) => {
   const customer = await db
     .select()
     .from(customers)
-    .where(eq(customers.id, id));
+    .where(eq(customers.id, Number(id)));
   return c.json(customer);
 });
 
@@ -37,7 +37,10 @@ customerRouter.openapi(updateCustomer, async (c) => {
   const id = c.req.param("id");
   const customer = await c.req.json();
 
-  await db.update(customers).set(customer).where(eq(customers.id, id));
+  await db
+    .update(customers)
+    .set(customer)
+    .where(eq(customers.id, Number(id)));
 
   return c.text("Customer updated successfully");
 });
@@ -45,7 +48,7 @@ customerRouter.openapi(updateCustomer, async (c) => {
 customerRouter.openapi(deleteCustomer, async (c) => {
   const id = c.req.param("id");
 
-  await db.delete(customers).where(eq(customers.id, id));
+  await db.delete(customers).where(eq(customers.id, Number(id)));
   return c.text("Customer deleted successfully");
 });
 

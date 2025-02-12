@@ -22,7 +22,10 @@ userRouter.openapi(getAllUsers, async (c) => {
 userRouter.openapi(getUserById, async (c) => {
   const id = c.req.param("id");
 
-  const user = await db.select().from(users).where(eq(users.id, id));
+  const user = await db
+    .select()
+    .from(users)
+    .where(eq(users.id, Number(id)));
   return c.json(user);
 });
 
@@ -36,7 +39,10 @@ userRouter.openapi(updateUser, async (c) => {
   const id = c.req.param("id");
   const user = await c.req.json();
 
-  await db.update(users).set(user).where(eq(users.id, id));
+  await db
+    .update(users)
+    .set(user)
+    .where(eq(users.id, Number(id)));
 
   return c.text("User updated successfully");
 });
@@ -44,7 +50,7 @@ userRouter.openapi(updateUser, async (c) => {
 userRouter.openapi(deleteUser, async (c) => {
   const id = c.req.param("id");
 
-  await db.delete(users).where(eq(users.id, id));
+  await db.delete(users).where(eq(users.id, Number(id)));
   return c.text("User deleted successfully");
 });
 

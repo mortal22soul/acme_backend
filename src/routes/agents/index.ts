@@ -21,7 +21,10 @@ agentRouter.openapi(getAllAgents, async (c) => {
 agentRouter.openapi(getAgentById, async (c) => {
   const id = c.req.param("id");
 
-  const agent = await db.select().from(agents).where(eq(agents.id, id));
+  const agent = await db
+    .select()
+    .from(agents)
+    .where(eq(agents.id, Number(id)));
   return c.json(agent);
 });
 
@@ -35,7 +38,10 @@ agentRouter.openapi(updateAgent, async (c) => {
   const id = c.req.param("id");
   const agent = await c.req.json();
 
-  await db.update(agents).set(agent).where(eq(agents.id, id));
+  await db
+    .update(agents)
+    .set(agent)
+    .where(eq(agents.id, Number(id)));
 
   return c.text("Agent updated successfully");
 });
@@ -43,7 +49,7 @@ agentRouter.openapi(updateAgent, async (c) => {
 agentRouter.openapi(deleteAgent, async (c) => {
   const id = c.req.param("id");
 
-  await db.delete(agents).where(eq(agents.id, id));
+  await db.delete(agents).where(eq(agents.id, Number(id)));
   return c.text("Agent deleted successfully");
 });
 
