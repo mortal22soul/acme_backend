@@ -1,28 +1,52 @@
-import { Hono } from "hono";
-
 import { db } from "@/db/index.ts";
-
+import { OpenAPIHono } from "@hono/zod-openapi";
+import { eq } from "drizzle-orm";
 import { users } from "@/db/schema/users.ts";
 
-import { getUsers } from "./routes.ts";
+import {
+  getUser,
+  getAllUsers,
+  getUserById,
+  createUser,
+  updateUser,
+  deleteUser,
+} from "@/routes/users/routes.ts";
 
-const userRouter = new Hono();
+const userRouter = new OpenAPIHono();
 
-userRouter.get("/", async (c) => {
+userRouter.openapi(getAllUsers, async (c) => {
   const userList = await db.select().from(users).limit(2);
 
   return c.json(userList);
 });
 
-userRouter.post("/", async (c) => {
-  const { firstName, lastName, username, email, password, role } =
-    await c.req.json();
+userRouter.openapi(getUserById, async (c) => {
+  const id = c.req.param().id;
 
-  const newUser = await db
-    .insert(users)
-    .values({ firstName, lastName, username, email, password, role });
+  const user = await db.select().from(users).where(eq(users.id, id));
+  return c.json(user);
+});
 
-  return c.json(newUser);
+userRouter.openapi(createUser, async (c) => {
+  const user = await c.req.json();
+  await db.insert(users).values(user);
+  return c.text("User created successfully");
+});
+
+userRouter.openapi(updateUser, async (c) => {
+  const id = c.req.param().id;
+  const user = await c.req.json();
+
+  await db.update(users).set(user).where(eq(users.id, id));
+
+  return c.text("User updated successfully");
+});
+
+userRouter.openapi(deleteUser, async (c) => {
+  const id = c.req.param().id;
+
+  await db.delete(users).where(eq(users.id, id));
+  return c.text("User deleted successfully");
 });
 
 export default userRouter;

@@ -1,5 +1,10 @@
 import { defineConfig } from "drizzle-kit";
 import { pgTable, serial, text, timestamp, pgEnum } from "drizzle-orm/pg-core";
+import {
+  createSelectSchema,
+  createInsertSchema,
+  createUpdateSchema,
+} from "drizzle-zod";
 
 export default defineConfig({
   dialect: "postgresql",
@@ -20,3 +25,7 @@ export const users = pgTable("users", {
   createdAt: timestamp("created_at", { mode: "string" }).notNull().defaultNow(),
   updatedAt: timestamp("updated_at", { mode: "string" }).notNull().defaultNow(),
 });
+
+export const userSelectSchema = createSelectSchema(users);
+export const userInsertSchema = createInsertSchema(users);
+export const userUpdateSchema = createUpdateSchema(users);
