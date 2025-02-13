@@ -105,7 +105,7 @@ export const updateUser = createRoute({
   method: "put",
   path: "/{id}",
   tags: ["users"],
-  summary: "Update a user",
+  summary: "Update user by id",
   security: [],
   request: {
     params: z.object({

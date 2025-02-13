@@ -9,7 +9,6 @@ import {
 } from "drizzle-orm/pg-core";
 import { customers } from "./customers.ts";
 import { trips } from "./trips.ts";
-import { payments } from "./payments.ts";
 import { relations } from "drizzle-orm";
 import {
   createInsertSchema,
@@ -22,7 +21,11 @@ export default defineConfig({
   schema: "./src/db/schema",
 });
 
-export const status = pgEnum("status", ["confirmed", "canceled", "pending"]);
+export const bookingStatus = pgEnum("bookingStatus", [
+  "confirmed",
+  "canceled",
+  "pending",
+]);
 
 export const bookings = pgTable("bookings", {
   id: serial("id").primaryKey(),
@@ -33,7 +36,7 @@ export const bookings = pgTable("bookings", {
     .notNull()
     .references(() => trips.id),
   bookingDate: timestamp("booking_date", { mode: "string" }).notNull(),
-  status: status(),
+  status: bookingStatus("status").notNull().default("pending"),
   travelers: integer("travelers").notNull(),
   totalPrice: text("total_price").notNull(),
   createdAt: timestamp("created_at", { mode: "string" }).notNull().defaultNow(),
@@ -48,10 +51,6 @@ export const bookingsRelations = relations(bookings, ({ one }) => ({
   trip: one(trips, {
     fields: [bookings.tripId],
     references: [trips.id],
-  }),
-  payment: one(payments, {
-    fields: [bookings.id],
-    references: [payments.bookingId],
   }),
 }));
 

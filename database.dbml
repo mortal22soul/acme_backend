@@ -1,19 +1,25 @@
+Enum "bookingStatus" {
+  "confirmed"
+  "canceled"
+  "pending"
+}
+
 Enum "method" {
   "credit card"
   "debit card"
   "net banking"
 }
 
+Enum "paymentStatus" {
+  "successful"
+  "failed"
+  "pending"
+}
+
 Enum "role" {
   "admin"
   "customer"
   "agent"
-}
-
-Enum "status" {
-  "successful"
-  "failed"
-  "pending"
 }
 
 Enum "type" {
@@ -36,7 +42,7 @@ Table "bookings" {
   "customer_id" int4 [not null, increment]
   "trip_id" int4 [not null, increment]
   "booking_date" timestamp [not null]
-  "status" status
+  "status" bookingStatus [not null, default: 'pending']
   "travelers" int4 [not null]
   "total_price" text [not null]
   "created_at" timestamp [not null, default: `now()`]
@@ -70,8 +76,8 @@ Table "payments" {
   "booking_id" int4 [not null, increment]
   "date" timestamp [not null]
   "amount" text [not null]
-  "status" status
-  "method" method
+  "status" paymentStatus [not null, default: 'pending']
+  "method" method [not null, default: 'debit card']
   "created_at" timestamp [not null, default: `now()`]
 }
 

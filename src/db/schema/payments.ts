@@ -13,7 +13,12 @@ export default defineConfig({
   schema: "./src/db/schema",
 });
 
-export const status = pgEnum("status", ["successful", "failed", "pending"]);
+export const paymentStatus = pgEnum("paymentStatus", [
+  "successful",
+  "failed",
+  "pending",
+]);
+
 export const method = pgEnum("method", [
   "credit card",
   "debit card",
@@ -27,8 +32,8 @@ export const payments = pgTable("payments", {
     .references(() => bookings.id),
   date: timestamp({ mode: "string" }).notNull(),
   amount: text().notNull(),
-  status: status(),
-  method: method(),
+  status: paymentStatus("status").notNull().default("pending"),
+  method: method().notNull().default("debit card"),
   createdAt: timestamp("created_at", { mode: "string" }).notNull().defaultNow(),
 });
 
