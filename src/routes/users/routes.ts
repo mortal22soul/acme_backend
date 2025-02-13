@@ -10,7 +10,11 @@ export const getUser = createRoute({
   path: "/",
   tags: ["users"],
   summary: "Get all users",
-  security: [],
+  security: [
+    {
+      Bearer: [],
+    },
+  ],
   responses: {
     200: {
       description: "Retrieved user successfully",
@@ -31,7 +35,11 @@ export const getUserById = createRoute({
   path: "/{id}",
   tags: ["users"],
   summary: "Get user by id",
-  security: [],
+  security: [
+    {
+      Bearer: [],
+    },
+  ],
   request: {
     params: z.object({
       id: z.string().openapi({ example: "22" }),
@@ -57,7 +65,11 @@ export const getAllUsers = createRoute({
   path: "/",
   tags: ["users"],
   summary: "Get all users",
-  security: [],
+  security: [
+    {
+      Bearer: [],
+    },
+  ],
   responses: {
     200: {
       description: "Return all users",
@@ -78,7 +90,11 @@ export const createUser = createRoute({
   path: "/",
   tags: ["users"],
   summary: "Create a user",
-  security: [],
+  security: [
+    {
+      Bearer: [],
+    },
+  ],
   request: {
     body: {
       content: {
@@ -106,7 +122,11 @@ export const updateUser = createRoute({
   path: "/{id}",
   tags: ["users"],
   summary: "Update user by id",
-  security: [],
+  security: [
+    {
+      Bearer: [],
+    },
+  ],
   request: {
     params: z.object({
       id: z.string().openapi({ example: "22" }),
@@ -132,7 +152,11 @@ export const deleteUser = createRoute({
   path: "/{id}",
   tags: ["users"],
   summary: "Delete a user",
-  security: [],
+  security: [
+    {
+      Bearer: [],
+    },
+  ],
   request: {
     params: z.object({
       id: z.string().openapi({ example: "22" }),

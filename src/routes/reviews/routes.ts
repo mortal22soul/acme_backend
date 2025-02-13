@@ -10,7 +10,11 @@ export const getAllReviews = createRoute({
   path: "/",
   tags: ["reviews"],
   summary: "Get all reviews",
-  security: [],
+  security: [
+    {
+      Bearer: [],
+    },
+  ],
   responses: {
     200: {
       description: "Retrieved review successfully",
@@ -31,7 +35,11 @@ export const getReviewById = createRoute({
   path: "/{id}",
   tags: ["reviews"],
   summary: "Get review by id",
-  security: [],
+  security: [
+    {
+      Bearer: [],
+    },
+  ],
   request: {
     params: z.object({
       id: z.string().openapi({ example: "22" }),
@@ -57,7 +65,11 @@ export const createReview = createRoute({
   path: "/",
   tags: ["reviews"],
   summary: "Insert new review",
-  security: [],
+  security: [
+    {
+      Bearer: [],
+    },
+  ],
   request: {
     body: {
       content: {
@@ -87,7 +99,11 @@ export const updateReview = createRoute({
   path: "/{id}",
   tags: ["reviews"],
   summary: "Update review by id",
-  security: [],
+  security: [
+    {
+      Bearer: [],
+    },
+  ],
   request: {
     params: z.object({
       id: z.string().openapi({ example: "22" }),
@@ -120,7 +136,11 @@ export const deleteReview = createRoute({
   path: "/{id}",
   tags: ["reviews"],
   summary: "Delete a review",
-  security: [],
+  security: [
+    {
+      Bearer: [],
+    },
+  ],
   request: {
     params: z.object({
       id: z.string().openapi({ example: "22" }),

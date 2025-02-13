@@ -10,7 +10,11 @@ export const getAllBookings = createRoute({
   path: "/",
   tags: ["bookings"],
   summary: "Get all bookings",
-  security: [],
+  security: [
+    {
+      Bearer: [],
+    },
+  ],
   responses: {
     200: {
       description: "Retrieved booking successfully",
@@ -31,7 +35,11 @@ export const getBookingById = createRoute({
   path: "/{id}",
   tags: ["bookings"],
   summary: "Get booking by id",
-  security: [],
+  security: [
+    {
+      Bearer: [],
+    },
+  ],
   request: {
     params: z.object({
       id: z.string().openapi({ example: "22" }),
@@ -57,7 +65,11 @@ export const deleteBooking = createRoute({
   path: "/{id}",
   summary: "Delete booking by id",
   tags: ["bookings"],
-  security: [],
+  security: [
+    {
+      Bearer: [],
+    },
+  ],
   request: {
     params: z.object({
       id: z.string().openapi({ example: "22" }),
@@ -78,7 +90,11 @@ export const createBooking = createRoute({
   path: "/",
   tags: ["bookings"],
   summary: "Create booking",
-  security: [],
+  security: [
+    {
+      Bearer: [],
+    },
+  ],
   request: {
     body: {
       content: {
@@ -108,7 +124,11 @@ export const updateBooking = createRoute({
   path: "/{id}",
   tags: ["bookings"],
   summary: "Update booking",
-  security: [],
+  security: [
+    {
+      Bearer: [],
+    },
+  ],
   request: {
     params: z.object({
       id: z.string().openapi({ example: "22" }),

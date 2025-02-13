@@ -10,7 +10,11 @@ export const getAllItineraries = createRoute({
   path: "/",
   tags: ["itineraries"],
   summary: "Get all itineraries",
-  security: [],
+  security: [
+    {
+      Bearer: [],
+    },
+  ],
   responses: {
     200: {
       description: "Retrieved itinerary successfully",
@@ -31,7 +35,11 @@ export const getItineraryById = createRoute({
   path: "/{id}",
   tags: ["itineraries"],
   summary: "Get itinerary by id",
-  security: [],
+  security: [
+    {
+      Bearer: [],
+    },
+  ],
   request: {
     params: z.object({
       id: z.string().openapi({ example: "22" }),
@@ -57,7 +65,11 @@ export const createItinerary = createRoute({
   path: "/",
   tags: ["itineraries"],
   summary: "Insert new itinerary",
-  security: [],
+  security: [
+    {
+      Bearer: [],
+    },
+  ],
   request: {
     body: {
       content: {
@@ -87,7 +99,11 @@ export const updateItinerary = createRoute({
   path: "/{id}",
   tags: ["itineraries"],
   summary: "Update itinerary by id",
-  security: [],
+  security: [
+    {
+      Bearer: [],
+    },
+  ],
   request: {
     params: z.object({
       id: z.string().openapi({ example: "22" }),
@@ -120,7 +136,11 @@ export const deleteItinerary = createRoute({
   path: "/{id}",
   tags: ["itineraries"],
   summary: "Delete an itinerary",
-  security: [],
+  security: [
+    {
+      Bearer: [],
+    },
+  ],
   request: {
     params: z.object({
       id: z.string().openapi({ example: "22" }),

@@ -10,7 +10,11 @@ export const getAllTrips = createRoute({
   path: "/",
   summary: "Get all trips",
   tags: ["trips"],
-  security: [],
+  security: [
+    {
+      Bearer: [],
+    },
+  ],
   responses: {
     200: {
       description: "Retrieved trips successfully",
@@ -31,7 +35,11 @@ export const getTripById = createRoute({
   path: "/{id}",
   summary: "Get trip by ID",
   tags: ["trips"],
-  security: [],
+  security: [
+    {
+      Bearer: [],
+    },
+  ],
   request: {
     params: z.object({
       id: z.number().openapi({ example: 22 }),
@@ -57,7 +65,11 @@ export const createTrip = createRoute({
   path: "/",
   summary: "Create a trip",
   tags: ["trips"],
-  security: [],
+  security: [
+    {
+      Bearer: [],
+    },
+  ],
   request: {
     body: {
       content: {
@@ -87,7 +99,11 @@ export const updateTrip = createRoute({
   path: "/{id}",
   summary: "Update a trip by ID",
   tags: ["trips"],
-  security: [],
+  security: [
+    {
+      Bearer: [],
+    },
+  ],
   request: {
     params: z.object({
       id: z.number().openapi({ example: 22 }),
@@ -118,7 +134,11 @@ export const deleteTrip = createRoute({
   path: "/{id}",
   summary: "Delete a trip by ID",
   tags: ["trips"],
-  security: [],
+  security: [
+    {
+      Bearer: [],
+    },
+  ],
   request: {
     params: z.object({
       id: z.number().openapi({ example: 22 }),

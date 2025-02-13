@@ -10,7 +10,11 @@ export const getAllPayments = createRoute({
   path: "/",
   tags: ["payments"],
   summary: "Get all payments",
-  security: [],
+  security: [
+    {
+      Bearer: [],
+    },
+  ],
   responses: {
     200: {
       description: "Retrieved payment successfully",
@@ -31,7 +35,11 @@ export const getPaymentById = createRoute({
   path: "/{id}",
   tags: ["payments"],
   summary: "Get payment by id",
-  security: [],
+  security: [
+    {
+      Bearer: [],
+    },
+  ],
   request: {
     params: z.object({
       id: z.string().openapi({ example: "22" }),
@@ -57,7 +65,11 @@ export const createPayment = createRoute({
   path: "/",
   tags: ["payments"],
   summary: "Insert new payment",
-  security: [],
+  security: [
+    {
+      Bearer: [],
+    },
+  ],
   request: {
     body: {
       content: {
@@ -87,7 +99,11 @@ export const updatePayment = createRoute({
   path: "/{id}",
   tags: ["payments"],
   summary: "Update payment by id",
-  security: [],
+  security: [
+    {
+      Bearer: [],
+    },
+  ],
   request: {
     params: z.object({
       id: z.string().openapi({ example: "22" }),
@@ -120,7 +136,11 @@ export const deletePayment = createRoute({
   path: "/{id}",
   tags: ["payments"],
   summary: "Delete a payment",
-  security: [],
+  security: [
+    {
+      Bearer: [],
+    },
+  ],
   request: {
     params: z.object({
       id: z.string().openapi({ example: "22" }),
