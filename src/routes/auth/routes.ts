@@ -6,7 +6,6 @@ export const signupRoute = createRoute({
   path: "/signup",
   summary: "Register a new user",
   tags: ["auth"],
-  body: userInsertSchema, // Directly use userInsertSchema
   request: {
     body: {
       content: {
@@ -17,8 +16,20 @@ export const signupRoute = createRoute({
     },
   },
   responses: {
-    201: { description: "User created" }, // Use 201 for resource creation
-    400: { description: "Invalid registration failed" },
+    201: {
+      description: "User created",
+      content: {
+        "application/json": {
+          schema: z.object({
+            message: z.string(),
+            userId: z.number(),
+            accessToken: z.string(),
+            refreshToken: z.string()
+          }),
+        },
+      },
+    },
+    400: { description: "Invalid registration data" },
   },
 });
 
@@ -32,8 +43,8 @@ export const loginRoute = createRoute({
       content: {
         "application/json": {
           schema: z.object({
-            email: z.string().email().openapi({ example: "test@example.com" }),
-            password: z.string().min(8).openapi({ example: "password123" }),
+            email: z.string().email(),
+            password: z.string().min(8),
           }),
         },
       },
@@ -45,15 +56,77 @@ export const loginRoute = createRoute({
       content: {
         "application/json": {
           schema: z.object({
-            token: z.string().openapi({
-              example:
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZXhhbXBsZS5jb20iLCJpYXQiOjE2MTUwMzE4MjJ9.0G8f9QzQJ7j7Q6w7h1VJ0J",
-            }),
-            userId: z.number().openapi({ example: 1 }), // Ensure userId is a number
+            message: z.string(),
+            accessToken: z.string(),
+            refreshToken: z.string(),
+            userId: z.number()
           }),
         },
       },
     },
     401: { description: "Login failed" },
+    429: { description: "Too many login attempts" },
+  },
+});
+
+export const refreshTokenRoute = createRoute({
+  method: "post",
+  path: "/refresh",
+  summary: "Refresh access token",
+  tags: ["auth"],
+  request: {
+    body: {
+      content: {
+        "application/json": {
+          schema: z.object({
+            refreshToken: z.string(),
+          }),
+        },
+      },
+    },
+  },
+  responses: {
+    200: {
+      description: "Token refreshed successfully",
+      content: {
+        "application/json": {
+          schema: z.object({
+            accessToken: z.string(),
+          }),
+        },
+      },
+    },
+    401: { description: "Invalid refresh token" },
+  },
+});
+
+export const logoutRoute = createRoute({
+  method: "post",
+  path: "/logout",
+  summary: "Logout user",
+  tags: ["auth"],
+  request: {
+    body: {
+      content: {
+        "application/json": {
+          schema: z.object({
+            refreshToken: z.string(),
+          }),
+        },
+      },
+    },
+  },
+  responses: {
+    200: {
+      description: "Logged out successfully",
+      content: {
+        "application/json": {
+          schema: z.object({
+            message: z.string(),
+          }),
+        },
+      },
+    },
+    401: { description: "Invalid refresh token" },
   },
 });

@@ -10,11 +10,7 @@ export const getAllCustomers = createRoute({
   path: "/",
   tags: ["customers"],
   summary: "Get all customers",
-  security: [
-    {
-      Bearer: [],
-    },
-  ],
+  security: [],
   responses: {
     200: {
       description: "Retrieved customer successfully",
@@ -35,11 +31,7 @@ export const getCustomerById = createRoute({
   path: "/{id}",
   tags: ["customers"],
   summary: "Get customer by id",
-  security: [
-    {
-      Bearer: [],
-    },
-  ],
+  security: [],
   request: {
     params: z.object({
       id: z.string().openapi({ example: "22" }),
@@ -65,11 +57,7 @@ export const createCustomer = createRoute({
   path: "/",
   tags: ["customers"],
   summary: "Create customer",
-  security: [
-    {
-      Bearer: [],
-    },
-  ],
+  security: [],
   request: {
     body: {
       content: {
@@ -94,11 +82,7 @@ export const updateCustomer = createRoute({
   path: "/{id}",
   tags: ["customers"],
   summary: "Update customer",
-  security: [
-    {
-      Bearer: [],
-    },
-  ],
+  security: [],
   request: {
     params: z.object({
       id: z.string().openapi({ example: "22" }),
@@ -126,11 +110,7 @@ export const deleteCustomer = createRoute({
   path: "/{id}",
   tags: ["customers"],
   summary: "Delete customer",
-  security: [
-    {
-      Bearer: [],
-    },
-  ],
+  security: [],
   request: {
     params: z.object({
       id: z.string().openapi({ example: "22" }),

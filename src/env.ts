@@ -12,26 +12,28 @@ const EnvSchema = z.object({
   DB_PORT: z.coerce.number(),
   DATABASE_URL: z.string(),
   JWT_SECRET: z.string(),
+  JWT_REFRESH_SECRET: z.string().optional(),
+  ALLOWED_ORIGIN: z.string().optional(),
+  REDIS_URL: z.string(),
 });
 
 export type EnvSchema = z.infer<typeof EnvSchema>;
 
-expand(config());
+const myEnv = config();
+if (myEnv.error) {
+  throw new Error("Failed to load .env file");
+}
+
+expand(myEnv);
 
 try {
   EnvSchema.parse(process.env);
 } catch (error) {
   if (error instanceof ZodError) {
-    let message = "Missing required values in .env:\n";
-    error.issues.forEach((issue) => {
-      message += issue.path[0] + "\n";
-    });
-    const e = new Error(message);
-    e.stack = "";
-    throw e;
-  } else {
-    console.error(error);
+    console.error("Environment validation failed:", error.errors);
   }
+  throw error;
 }
 
-export default EnvSchema.parse(process.env);
+const env = EnvSchema.parse(process.env);
+export default env;

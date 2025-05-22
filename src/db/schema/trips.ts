@@ -23,7 +23,7 @@ export default defineConfig({
   schema: "./src/db/schema",
 });
 
-export const type = pgEnum("type", ["one-way", "round-trip", "multi-city"]);
+export const type = pgEnum("type", ["one-way", "round-trip"]);
 
 export const trips = pgTable("trips", {
   id: serial("id").primaryKey(),
@@ -32,9 +32,10 @@ export const trips = pgTable("trips", {
     .references(() => agents.id),
   destination: text().notNull(),
   origin: text().notNull(),
+  images: text("images").notNull().array(),
+  price: text("price").notNull(),
   departureDate: timestamp("departure_date", { mode: "string" }).notNull(),
   returnDate: timestamp("return_date", { mode: "string" }).notNull(),
-  price: text("price").notNull(),
   availableSeats: integer("available_seats").notNull(),
   type: type().notNull(),
   createdAt: timestamp("created_at", { mode: "string" }).notNull().defaultNow(),

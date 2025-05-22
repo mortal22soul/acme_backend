@@ -23,6 +23,7 @@ export const reviews = pgTable("reviews", {
     .notNull()
     .references(() => trips.id),
   rating: integer().notNull(),
+  title: text().notNull(),
   comment: text(),
   createdAt: timestamp("created_at", { mode: "string" }).notNull().defaultNow(),
   updatedAt: timestamp("updated_at", { mode: "string" }).notNull().defaultNow(),

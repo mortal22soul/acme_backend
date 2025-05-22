@@ -9,23 +9,40 @@ import {
   updateReview,
   deleteReview,
 } from "./routes.ts";
+import redis from "@/db/redis.ts";
 
 const reviewRouter = new OpenAPIHono();
 
 reviewRouter.openapi(getAllReviews, async (c) => {
+  const cacheKey = "reviews:all";
+  const cachedReviews = await redis.get(cacheKey);
+
+  if (cachedReviews) return c.json(JSON.parse(cachedReviews));
+
   const reviewList = await db.select().from(reviews);
+  await redis.set(cacheKey, JSON.stringify(reviewList), "EX", 900);
 
   return c.json(reviewList);
 });
 
 reviewRouter.openapi(getReviewById, async (c) => {
-  const id = c.req.param("id");
+  const id = Number(c.req.param("id"));
+  if (isNaN(id)) return c.json({ error: "Invalid review ID" }, 400);
 
-  const review = await db
+  const cacheKey = `reviews:${id}`;
+  const cachedReview = await redis.get(cacheKey);
+
+  if (cachedReview) return c.json(JSON.parse(cachedReview));
+
+  const reviewList = await db
     .select()
     .from(reviews)
-    .where(eq(reviews.id, Number(id)));
-  return c.json(review);
+    .where(eq(reviews.tripId, Number(id)));
+  if (!reviewList.length) return c.json({ error: "Review not found" }, 404);
+
+  await redis.set(cacheKey, JSON.stringify(reviewList), "EX", 900);
+
+  return c.json(reviewList);
 });
 
 reviewRouter.openapi(createReview, async (c) => {

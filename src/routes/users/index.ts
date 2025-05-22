@@ -4,7 +4,6 @@ import { eq } from "drizzle-orm";
 import { users } from "@/db/schema/users.ts";
 import {
   getUser,
-  createUser,
   getAllUsers,
   getUserById,
   updateUser,
@@ -27,12 +26,6 @@ userRouter.openapi(getUserById, async (c) => {
     .from(users)
     .where(eq(users.id, Number(id)));
   return c.json(user);
-});
-
-userRouter.openapi(createUser, async (c) => {
-  const user = await c.req.json();
-  await db.insert(users).values(user);
-  return c.text("User created successfully");
 });
 
 userRouter.openapi(updateUser, async (c) => {

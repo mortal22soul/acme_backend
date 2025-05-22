@@ -11,11 +11,7 @@ export const getAllAgents = createRoute({
   path: "/",
   tags: ["agents"],
   summary: "Get all agents",
-  security: [
-    {
-      Bearer: [],
-    },
-  ],
+  security: [],
   responses: {
     200: {
       description: "Retrieved agent successfully",
@@ -36,11 +32,7 @@ export const getAgentById = createRoute({
   path: "/{id}",
   tags: ["agents"],
   summary: "Get agent by id",
-  security: [
-    {
-      Bearer: [],
-    },
-  ],
+  security: [],
   request: {
     params: z.object({
       id: z.string().openapi({ example: "22" }),
@@ -66,11 +58,7 @@ export const createAgent = createRoute({
   path: "/",
   tags: ["agents"],
   summary: "Create agent",
-  security: [
-    {
-      Bearer: [],
-    },
-  ],
+  security: [],
   request: {
     body: {
       content: {
@@ -95,11 +83,7 @@ export const updateAgent = createRoute({
   path: "/{id}",
   tags: ["agents"],
   summary: "Update agent",
-  security: [
-    {
-      Bearer: [],
-    },
-  ],
+  security: [],
   request: {
     params: z.object({
       id: z.string().openapi({ example: "22" }),
@@ -127,11 +111,7 @@ export const deleteAgent = createRoute({
   path: "/{id}",
   tags: ["agents"],
   summary: "Delete agent",
-  security: [
-    {
-      Bearer: [],
-    },
-  ],
+  security: [],
   request: {
     params: z.object({
       id: z.string().openapi({ example: "22" }),

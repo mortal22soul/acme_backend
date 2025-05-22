@@ -10,11 +10,7 @@ export const getUser = createRoute({
   path: "/",
   tags: ["users"],
   summary: "Get all users",
-  security: [
-    {
-      Bearer: [],
-    },
-  ],
+  security: [],
   responses: {
     200: {
       description: "Retrieved user successfully",
@@ -35,11 +31,7 @@ export const getUserById = createRoute({
   path: "/{id}",
   tags: ["users"],
   summary: "Get user by id",
-  security: [
-    {
-      Bearer: [],
-    },
-  ],
+  security: [],
   request: {
     params: z.object({
       id: z.string().openapi({ example: "22" }),
@@ -65,11 +57,7 @@ export const getAllUsers = createRoute({
   path: "/",
   tags: ["users"],
   summary: "Get all users",
-  security: [
-    {
-      Bearer: [],
-    },
-  ],
+  security: [],
   responses: {
     200: {
       description: "Return all users",
@@ -85,48 +73,12 @@ export const getAllUsers = createRoute({
   },
 });
 
-export const createUser = createRoute({
-  method: "post",
-  path: "/",
-  tags: ["users"],
-  summary: "Create a user",
-  security: [
-    {
-      Bearer: [],
-    },
-  ],
-  request: {
-    body: {
-      content: {
-        "application/json": { schema: userInsertSchema.openapi("UserInsert") },
-      },
-    },
-  },
-  responses: {
-    200: {
-      description: "User created successfully",
-      content: {
-        "application/json": {
-          schema: userSelectSchema.openapi("UserResponse"),
-        },
-      },
-    },
-    400: {
-      description: "User not found",
-    },
-  },
-});
-
 export const updateUser = createRoute({
   method: "put",
   path: "/{id}",
   tags: ["users"],
   summary: "Update user by id",
-  security: [
-    {
-      Bearer: [],
-    },
-  ],
+  security: [],
   request: {
     params: z.object({
       id: z.string().openapi({ example: "22" }),
@@ -152,11 +104,7 @@ export const deleteUser = createRoute({
   path: "/{id}",
   tags: ["users"],
   summary: "Delete a user",
-  security: [
-    {
-      Bearer: [],
-    },
-  ],
+  security: [],
   request: {
     params: z.object({
       id: z.string().openapi({ example: "22" }),

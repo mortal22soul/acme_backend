@@ -1,6 +1,8 @@
 import { serve } from "@hono/node-server";
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { swaggerUI } from "@hono/swagger-ui";
+import { cors } from "hono/cors";
+import env from "./env.ts";
 
 import authRouter, { verifyToken } from "@/routes/auth/index.ts";
 import userRouter from "@/routes/users/index.ts";
@@ -13,6 +15,13 @@ import reviewRouter from "@/routes/reviews/index.ts";
 import itineraryRouter from "@/routes/itineraries/index.ts";
 
 const app = new OpenAPIHono();
+
+app.use("*", (c, next) => {
+  const corsMiddleware = cors({
+    origin: env.ALLOWED_ORIGIN?.split(",") || [],
+  });
+  return corsMiddleware(c, next);
+});
 
 app.get("/", (c) => c.text("Hello Hono!"));
 
@@ -31,17 +40,17 @@ app.doc("/openapi", {
 });
 app.get("/docs", swaggerUI({ url: "/openapi" }));
 
-app.route("/auth", authRouter);
+app.route("/", authRouter);
 
 // Middleware to verify token
-app.use("*", verifyToken);
+// app.use("*", verifyToken); // temporarily disabled
 
 // Protected Routes (Require Authentication)
 app.route("/users", userRouter);
 app.route("/customers", customerRouter);
 app.route("/agents", agentRouter);
-app.route("/bookings", bookingRouter);
 app.route("/trips", tripRouter);
+app.route("/bookings", bookingRouter);
 app.route("/payments", paymentRouter);
 app.route("/reviews", reviewRouter);
 app.route("/itineraries", itineraryRouter);
